@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:annotation-config/>
+
+    <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean" scope="singleton">
+        <property name="jndiName" value="java:comp/env/jdbc/TestDB" />
+        <property name="resourceRef" value="true" />
+    </bean>
+
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
+    <bean id="cityMapper" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+        <property name="mapperInterface" value="sliout.test.mapper.CityMapper" />
+        <property name="sqlSessionFactory" ref="sqlSessionFactory" />
+    </bean>
+
+    <bean id="service" class="sliout.test.service.CityService" />
+
+</beans>
